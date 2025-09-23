@@ -1,0 +1,6 @@
+systemtap can run in a limited mode with just the kernel-devel package, this is referred to as DWARF-less mode
+with the kernel-debuginfo packages installed, systemtap runs in DWARF mode  which allows for additional debugging functionality
+
+stap -l 'kernel.function("*")' |sort |more
+stap -l '{module("nfsd")}.function("*")' |more
+stap -L '{module("nfsd")}.function("__nfs4_file_get_access")'

@@ -1,0 +1,11 @@
+Useful one-liners.
+
+strace -t -f -s1024 -e trace=openat,clone,execve -p PID 2> strace.log
+strace -f sh -c 'command1 | command2'
+
+fio --name=seq_write_test --filename=/tmp/fio0 --size=50G --bs=1M --rw=write --ioengine=libaio --direct=1 --numjobs=1 --time_based --runtime=60
+
+stress-ng --cpu 0 -t 1m
+stress-ng --l1cache 1 --verify -t 1m
+stress-ng --prefetch 1 --metrics -t 1m
+

@@ -1,0 +1,55 @@
+Commands for gdb debugging.
+
+shell clear
+show follow-fork-mode
+show mi-async
+show scheduler-locking
+thread apply all bt
+bt
+btc
+btp
+set target-async 1 && set pagination off && set non-stop on && show non-stop
+call sleep(1000)
+awatch *0x80497b8
+watch *(int *)0x80497b8
+cond 1 $_thread == 59
+cond 1 $_streq(s->name, "kmalloc-192")
+b function
+b *address
+unset environ
+env -i
+x/s *((char **) environ)
+x/s *((char **) environ + 1)
+x/5xg $rsp
+x/100xb $rsp
+x/32gx 0xffff88811a016840
+disassemble /m 'main.c'::release_snapshot
+disassemble $rip-0x100, $rip+0x100
+i functions syscall
+i r rip rsp rbp eflags cr3 cr2 cr0 cr4
+p $_siginfo
+w $rax
+fin
+u
+i symbol
+set logging on
+list *(main+0x12c)
+
+info record
+record instruction-history /m -
+reverse-step
+
+lx-cpus
+lx-clk-summary
+lx-dmesg
+apropos lx
+help function lx_per_cpu
+help lx-mounts
+p $lx_current().pid
+p $lx_current().comm
+p *node_data[0]
+p kstack_offset
+p $lx_per_cpu(s->cpu_slab)
+p $lx_per_cpu(pcpu_hot)
+p/x $lx_per_cpu(pcpu_hot)
+p node_data[0]->node_zones[3]->present_pages

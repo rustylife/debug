@@ -1,0 +1,24 @@
+Commands for analyzing kernel kdump file.
+
+crash vmlinux vmcore
+
+crash> sys > /tmp/sys.txt
+crash> log > /tmp/log.txt
+crash> foreach bt
+crash> foreach bt -FFsx
+crash> set PID
+crash> bt PID
+crash> vm
+crash> files PID
+crash> set -c CPU
+crash> ps -k
+crash> ps -u
+
+crash> dis -rx put_files_struct+0x91 | tail
+crash> dis -x filp_close | head
+
+crash> rd -x MEM_ADDRESS
+crash> struct -ox dentry
+crash> struct -px file.f_op MEM_ADDRESS
+
+crash> search -t 1563d5c09e16b841

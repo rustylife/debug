@@ -1,0 +1,24 @@
+Tracing via tracefs.
+
+echo 'p:probe_percpu_down_read percpu_down_read sem=%di' >> /sys/kernel/tracing/kprobe_events
+echo 'p:probe_percpu_up_read percpu_up_read sem=%di' >> /sys/kernel/tracing/kprobe_events
+echo 'p:probe_percpu_down_write percpu_down_write sem=%di' >>  /sys/kernel/tracing/kprobe_events
+echo 'p:probe_percpu_up_write percpu_up_write sem=%di' >>  /sys/kernel/tracing/kprobe_events
+echo 'r:retprobe_percpu_down_read percpu_down_read' >> /sys/kernel/tracing/kprobe_events
+echo 'r:retprobe_percpu_up_read percpu_up_read' >> /sys/kernel/tracing/kprobe_events
+echo 'r:retprobe_percpu_down_write percpu_down_write' >> /sys/kernel/tracing/kprobe_events
+echo 'r:retprobe_percpu_up_write percpu_up_write' >> /sys/kernel/tracing/kprobe_events
+echo 1 >  /sys/kernel/tracing/events/kprobes/enable
+cat /sys/kernel/tracing/kprobe_events
+cat /sys/kernel/tracing/trace
+echo 0 >  /sys/kernel/tracing/events/kprobes/enable
+echo '' > /sys/kernel/tracing/kprobe_events
+
+echo 'r:check_cgroup_limit cgroup_can_fork $retval' > /sys/kernel/tracing/kprobe_events
+echo 'r:check_fork_limit _do_fork $retval' >> /sys/kernel/tracing/kprobe_events
+echo 'arg1 >= 0xffffff00' > /sys/kernel/tracing/events/kprobes/check_cgroup_limit/filter
+echo 'arg1 >= 0xffffffffffffff00' > /sys/kernel/tracing/events/kprobes/check_fork_limit/filter
+
+echo 'p /usr/bin/ls:0x4d80 %ip' > /sys/kernel/tracing/uprobe_events
+echo '1' > /sys/kernel/tracing/events/uprobes/enable
+echo '1' > /sys/kernel/tracing/events/uprobes/p_ls_0x4d80/enable

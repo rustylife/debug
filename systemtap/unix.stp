@@ -1,0 +1,56 @@
+#!/usr/bin/env stap
+
+probe begin
+{
+	printf("Tracing unix sockets... type ctrl-c to exit\n")
+}
+
+probe kernel.function("unix_stream_sendmsg")
+{
+	timestamp = gettimeofday_us()
+	printf("[%s][%d][%d][%s] ", ctime(timestamp/1000000), pid(), tid(), execname())
+	printf("[%p] unix_stream_sendmsg(): ", $sock->sk)
+	printf("len: %d\n", $len)
+}
+
+probe kernel.function("unix_stream_recvmsg")
+{
+	timestamp = gettimeofday_us()
+	printf("[%s][%d][%d][%s] ", ctime(timestamp/1000000), pid(), tid(), execname())
+	printf("[%p] unix_stream_recvmsg(): ", $sock->sk)
+	printf("size: %d\n", $size)
+}
+
+probe kernel.function("unix_create")
+{
+	timestamp = gettimeofday_us()
+	printf("[%s][%d][%d][%s] ", ctime(timestamp/1000000), pid(), tid(), execname())
+	printf("[%p] unix_create()\n", $sock->sk)
+}
+
+probe kernel.function("unix_shutdown")
+{
+	timestamp = gettimeofday_us()
+	printf("[%s][%d][%d][%s] ", ctime(timestamp/1000000), pid(), tid(), execname())
+	printf("[%p] unix_shutdown()\n", $sock->sk)
+}
+
+probe kernel.function("unix_release")
+{
+	timestamp = gettimeofday_us()
+	printf("[%s][%d][%d][%s] ", ctime(timestamp/1000000), pid(), tid(), execname())
+	printf("[%p] unix_release()\n", $sock->sk)
+}
+
+probe kernel.function("unix_ioctl")
+{
+	timestamp = gettimeofday_us()
+	printf("[%s][%d][%d][%s] ", ctime(timestamp/1000000), pid(), tid(), execname())
+	printf("[%p] unix_ioctl() cmd: [%d]\n", $sock->sk, $cmd)
+}
+
+probe kernel.function("unix_stream_connect") {
+	timestamp = gettimeofday_us()
+	printf("[%s][%d][%d][%s] ", ctime(timestamp/1000000), pid(), tid(), execname())
+	printf("[%p] unix_stream_connect()\n", $sock->sk)
+}
