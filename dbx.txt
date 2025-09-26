@@ -1,0 +1,15 @@
+Commands for dbx on AIX:
+dbx binary dump.dmp
+run arg1 arg2
+proc -map
+cont
+stop at
+stop in
+stopi at
+map
+registers
+where
+where all
+dump
+fd
+multproc on

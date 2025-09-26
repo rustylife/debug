@@ -1,0 +1,39 @@
+Commands for profiling with perf.
+
+perf stat ls
+perf stat -I 1000
+perf record -F99 -g --switch-events
+perf record -F99 -g -p PID1,PID2
+perf record -u user
+perf report --stdio --header
+perf report -g folded
+perf report -G
+perf report --call-graph ,,,,callee -g folded --stdio
+perf top -F99
+perf lock con -abl -E 5 sleep 1
+perf record ‑e instructions ‑c 1 000 000 ‑p PID
+perf record -b
+perf report -s sym,srcline
+perf report --no-children
+perf report --percent-limit 5
+perf report --branch-history
+perf mem record
+perf mem report
+perf script
+perf annotate
+perf annotate -M intel
+perf diff
+perf list
+perf evlist -v
+
+use --symfs if your symbol files are in non-standard locations
+
+is this off cpu? yes and no, the task that gets scheduled in (not the one that was switched out):
+perf record -g -F99 -e sched:sched_switch
+this one should be the one that gets scheduled out:
+perf record -g -F99 -e sched:sched_switch --filter 'prev_state != 0'
+
+perf ftrace latency -abn -T switch_mm_irqs_off --bucket-range=100 --min-latency=200 --max-latency=800 -- sleep 1
+
+perf stat -e task-clock,cycles,instructions,cache-references,cache-misses ./a.out
+perf stat -e task-clock,cycles,instructions,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses ./a.out

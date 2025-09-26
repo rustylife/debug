@@ -1,0 +1,18 @@
+AIX profiling for user-space/kernel-space:
+
+probevue -u -s 1024 -t 10 -o report trace.e
+
+bash-5.1# cat trace.e
+
+/* sample stack traces of a specific process at 10ms intervals */
+
+@@BEGIN
+{
+        printf("Profiling...\n");
+}
+
+@@interval:PID:clock:10
+{
+        printf("[%llu][%d][%s] stack:\n", timestamp(), __pid, __pname);
+        printf("%t\n", get_stktrace(-1));
+}

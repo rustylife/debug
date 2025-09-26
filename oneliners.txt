@@ -9,3 +9,5 @@ stress-ng --cpu 0 -t 1m
 stress-ng --l1cache 1 --verify -t 1m
 stress-ng --prefetch 1 --metrics -t 1m
 
+tshark -n -r source.pcap -z "follow,tcp,hex,2" -z "follow,tcp,hex,5" -z "conv,tcp" -z "endpoints,tcp" -z "ip_srcdst,tree" -t ad
+TZ=Asia/Seoul tshark -n -r source.pcap -t ad -Y "tcp.port == 22" -o tcp.relative_sequence_numbers:FALSE
