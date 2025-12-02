@@ -11,3 +11,25 @@ stress-ng --prefetch 1 --metrics -t 1m
 
 tshark -n -r source.pcap -z "follow,tcp,hex,2" -z "follow,tcp,hex,5" -z "conv,tcp" -z "endpoints,tcp" -z "ip_srcdst,tree" -t ad
 TZ=Asia/Seoul tshark -n -r source.pcap -t ad -Y "tcp.port == 22" -o tcp.relative_sequence_numbers:FALSE
+
+# dotnet on Linux
+aptitude install dotnet-sdk-6.0
+dotnet new tool-manifest
+dotnet --list-runtimes
+dotnet tool symbols
+dotnet tool install dotnet-trace
+dotnet tool install dotnet-stack
+dotnet tool install dotnet-sos
+dotnet tool list -g
+dotnet sos install
+dotnet-trace ps
+dotnet-trace list-profiles
+dotnet-trace report trace.file topN -n 20
+
+trace-cmd record -e lock:contention_begin -e lock:contention_end -T
+trace-cmd record -p function_graph -g kfree --max-graph-depth 3
+trace-cmd record -p function_graph -F sync
+trace-cmd record -p function_graph -F -c sudo ls
+trace-cmd list -f
+trace-cmd agent
+trace-cmd extract
