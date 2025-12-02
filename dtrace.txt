@@ -1,0 +1,3 @@
+Solaris profiling for user-space/kernel-space:
+dtrace -n 'profile-100 /pid==PID/ { @[ustack()] = count(); } tick-180sec { exit(0); }' > ustacks.log
+dtrace -n 'profile-100 /pid==PID/ { @kernel_stack[stack()] = count(); @user_stack[ustack()] = count(); } tick-10sec { exit(0); }' > kstacks.log

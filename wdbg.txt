@@ -1,0 +1,71 @@
+Commands for WinDbg debugging.
+
+ld *
+lm
+lmDvm*
+.time
+!peb
+vertarget
+!dml_proc
+!dlls
+.tlist
+.restart /f
+.expr
+
+!threads and ~ to get thread id
+!address -summary
+!heap -s
+!teb
+~
+~* k
+~n
+~* n
+~* m
+dv
+kP
+!uniqstack
+!findstack ReadFile 2
+dt kernelbase!*ReadFile*
+dt nt!_GUID <@ofobject>
+x kernel32!*
+x *!IsDebuggerPresent
+bl
+bc *
+!wow64exts.sw
+.excr
+.exr -1
+.lastevent
+!analyze -v
+s -u CSRFPreventionToken
+s -a @rsp L?10000000 "C"
+.for (r $t0 = @rsp; @$t0 < @rsp + 2000; r $t0 = @$t0 + 8) { .printf "Stack Addr: %p PTR: %p\n", @$t0, poi(@$t0); da poi(@$t0) }
+
+bp kernelbase!WriteFile
+
+#managed code
+.loadby sos clr
+!sos.help
+!ClrStack
+!ClrStack -p
+!ClrStack -i -a 0
+!EEStack -EE
+
+!VerifyHeap
+!EEHeap
+!dumpheap -stat
+!Threads
+!Name2EE * Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderVimService.Read4_DynamicProperty
+!Name2EE * Debugger
+!bpmd mscorlib.dll FileStream.Write
+!do @rdi
+
+.cordll -ve -u -l
+!dumpheap -type System.Net.Http.Headers.HttpRequestHeaders
+!gcroot <StringAddress> to find parent of a String ?
+
+#general
+.dump /ma C:\temp\app.dmp
+.logopen /t C:\temp\wdbg.txt
+.logclose
+symbols
+C:\symbols\custom;cache*C:\symbols\cache;srv*http://msdl.microsoft.com/download/symbols
